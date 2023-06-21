@@ -5,7 +5,7 @@
 ### Create the docker network
 
 ```bash
-docker network create grpc-task-manager_default
+docker network create grpc-manager_default
 ```
 
 ### Launch the databases and tracing tools
