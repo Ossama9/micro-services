@@ -13,7 +13,6 @@ export interface Hotel {
 }
 
 export interface GetRequest {
-  name?: string;
   id?: number;
 }
 
@@ -31,56 +30,33 @@ export interface AddResponse {
   hotel?: Hotel;
 }
 
-export interface UpdateRequest {
-  id?: number;
-  name?: string;
-  city?: string;
-  address?: string;
-}
-
-export interface UpdateResponse {
-  hotel?: Hotel;
-}
-
-export interface DeleteRequest {
-  id?: number;
-}
-
-export interface DeleteResponse {
-  hotel?: Hotel;
-}
-
 export const HOTEL_V1ALPHA_PACKAGE_NAME = "hotel.v1alpha";
 
 export interface HotelCRUDServiceClient {
   get(request: GetRequest, metadata?: Metadata): Observable<GetResponse>;
 
+  /**
+   * rpc Update (UpdateRequest) returns (UpdateResponse);
+   *  rpc Delete (DeleteRequest) returns (DeleteResponse);
+   */
+
   add(request: AddRequest, metadata?: Metadata): Observable<AddResponse>;
-
-  update(request: UpdateRequest, metadata?: Metadata): Observable<UpdateResponse>;
-
-  delete(request: DeleteRequest, metadata?: Metadata): Observable<DeleteResponse>;
 }
 
 export interface HotelCRUDServiceController {
   get(request: GetRequest, metadata?: Metadata): Promise<GetResponse> | Observable<GetResponse> | GetResponse;
 
+  /**
+   * rpc Update (UpdateRequest) returns (UpdateResponse);
+   *  rpc Delete (DeleteRequest) returns (DeleteResponse);
+   */
+
   add(request: AddRequest, metadata?: Metadata): Promise<AddResponse> | Observable<AddResponse> | AddResponse;
-
-  update(
-    request: UpdateRequest,
-    metadata?: Metadata,
-  ): Promise<UpdateResponse> | Observable<UpdateResponse> | UpdateResponse;
-
-  delete(
-    request: DeleteRequest,
-    metadata?: Metadata,
-  ): Promise<DeleteResponse> | Observable<DeleteResponse> | DeleteResponse;
 }
 
 export function HotelCRUDServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["get", "add", "update", "delete"];
+    const grpcMethods: string[] = ["get", "add"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("HotelCRUDService", method)(constructor.prototype[method], method, descriptor);
