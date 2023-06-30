@@ -77,6 +77,54 @@ export interface AddResponse {
      */
     hotel?: Hotel;
 }
+/**
+ * @generated from protobuf message hotel.v1alpha.UpdateRequest
+ */
+export interface UpdateRequest {
+    /**
+     * @generated from protobuf field: int32 id = 1;
+     */
+    id: number;
+    /**
+     * @generated from protobuf field: string name = 2;
+     */
+    name: string;
+    /**
+     * @generated from protobuf field: string city = 3;
+     */
+    city: string;
+    /**
+     * @generated from protobuf field: string address = 4;
+     */
+    address: string;
+}
+/**
+ * @generated from protobuf message hotel.v1alpha.UpdateResponse
+ */
+export interface UpdateResponse {
+    /**
+     * @generated from protobuf field: hotel.v1alpha.Hotel hotel = 1;
+     */
+    hotel?: Hotel;
+}
+/**
+ * @generated from protobuf message hotel.v1alpha.DeleteRequest
+ */
+export interface DeleteRequest {
+    /**
+     * @generated from protobuf field: int32 id = 1;
+     */
+    id: number;
+}
+/**
+ * @generated from protobuf message hotel.v1alpha.DeleteResponse
+ */
+export interface DeleteResponse {
+    /**
+     * @generated from protobuf field: hotel.v1alpha.Hotel hotel = 1;
+     */
+    hotel?: Hotel;
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class Hotel$Type extends MessageType<Hotel> {
     constructor() {
@@ -347,10 +395,221 @@ class AddResponse$Type extends MessageType<AddResponse> {
  * @generated MessageType for protobuf message hotel.v1alpha.AddResponse
  */
 export const AddResponse = new AddResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateRequest$Type extends MessageType<UpdateRequest> {
+    constructor() {
+        super("hotel.v1alpha.UpdateRequest", [
+            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "city", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "address", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<UpdateRequest>): UpdateRequest {
+        const message = { id: 0, name: "", city: "", address: "" };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<UpdateRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateRequest): UpdateRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* int32 id */ 1:
+                    message.id = reader.int32();
+                    break;
+                case /* string name */ 2:
+                    message.name = reader.string();
+                    break;
+                case /* string city */ 3:
+                    message.city = reader.string();
+                    break;
+                case /* string address */ 4:
+                    message.address = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UpdateRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* int32 id = 1; */
+        if (message.id !== 0)
+            writer.tag(1, WireType.Varint).int32(message.id);
+        /* string name = 2; */
+        if (message.name !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.name);
+        /* string city = 3; */
+        if (message.city !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.city);
+        /* string address = 4; */
+        if (message.address !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.address);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message hotel.v1alpha.UpdateRequest
+ */
+export const UpdateRequest = new UpdateRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class UpdateResponse$Type extends MessageType<UpdateResponse> {
+    constructor() {
+        super("hotel.v1alpha.UpdateResponse", [
+            { no: 1, name: "hotel", kind: "message", T: () => Hotel }
+        ]);
+    }
+    create(value?: PartialMessage<UpdateResponse>): UpdateResponse {
+        const message = {};
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<UpdateResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateResponse): UpdateResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* hotel.v1alpha.Hotel hotel */ 1:
+                    message.hotel = Hotel.internalBinaryRead(reader, reader.uint32(), options, message.hotel);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: UpdateResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* hotel.v1alpha.Hotel hotel = 1; */
+        if (message.hotel)
+            Hotel.internalBinaryWrite(message.hotel, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message hotel.v1alpha.UpdateResponse
+ */
+export const UpdateResponse = new UpdateResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DeleteRequest$Type extends MessageType<DeleteRequest> {
+    constructor() {
+        super("hotel.v1alpha.DeleteRequest", [
+            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+    create(value?: PartialMessage<DeleteRequest>): DeleteRequest {
+        const message = { id: 0 };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<DeleteRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: DeleteRequest): DeleteRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* int32 id */ 1:
+                    message.id = reader.int32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: DeleteRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* int32 id = 1; */
+        if (message.id !== 0)
+            writer.tag(1, WireType.Varint).int32(message.id);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message hotel.v1alpha.DeleteRequest
+ */
+export const DeleteRequest = new DeleteRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class DeleteResponse$Type extends MessageType<DeleteResponse> {
+    constructor() {
+        super("hotel.v1alpha.DeleteResponse", [
+            { no: 1, name: "hotel", kind: "message", T: () => Hotel }
+        ]);
+    }
+    create(value?: PartialMessage<DeleteResponse>): DeleteResponse {
+        const message = {};
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<DeleteResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: DeleteResponse): DeleteResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* hotel.v1alpha.Hotel hotel */ 1:
+                    message.hotel = Hotel.internalBinaryRead(reader, reader.uint32(), options, message.hotel);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: DeleteResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* hotel.v1alpha.Hotel hotel = 1; */
+        if (message.hotel)
+            Hotel.internalBinaryWrite(message.hotel, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message hotel.v1alpha.DeleteResponse
+ */
+export const DeleteResponse = new DeleteResponse$Type();
 /**
  * @generated ServiceType for protobuf service hotel.v1alpha.HotelCRUDService
  */
 export const HotelCRUDService = new ServiceType("hotel.v1alpha.HotelCRUDService", [
     { name: "Get", options: {}, I: GetRequest, O: GetResponse },
-    { name: "Add", options: {}, I: AddRequest, O: AddResponse }
+    { name: "Add", options: {}, I: AddRequest, O: AddResponse },
+    { name: "Update", options: {}, I: UpdateRequest, O: UpdateResponse },
+    { name: "Delete", options: {}, I: DeleteRequest, O: DeleteResponse }
 ]);

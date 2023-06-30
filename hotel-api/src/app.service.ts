@@ -26,16 +26,16 @@ export class AppService {
   //   });
   // }
 
-  // async update(id: number, data: Prisma.HotelUpdateInput): Promise<Hotel> {
-  //   return this.prisma.hotel.update({
-  //     where: { id },
-  //     data,
-  //   });
-  // }
+  async update(id: number, data: Prisma.HotelUpdateInput): Promise<Hotel> {
+    return this.prisma.hotel.update({
+      where: { id },
+      data,
+    });
+  }
 
-  // delete(id: number): Promise<Hotel> {
-  //   return this.prisma.hotel.delete({
-  //     where: { id },
-  //   });
-  // }
+  delete(id: number): Promise<Hotel> {
+    return this.prisma.hotel.delete({
+      where: { id },
+    });
+  }
 }

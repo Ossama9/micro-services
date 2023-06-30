@@ -3,15 +3,15 @@ import {AppService} from './app.service';
 import {
 	AddRequest,
 	AddResponse,
-	// DeleteRequest,
-	// DeleteResponse,
+	DeleteRequest,
+	DeleteResponse,
 	GetRequest,
 	GetResponse,
 	HOTEL_CR_UD_SERVICE_NAME,
 	Hotel,
 	HotelCRUDServiceController,
-	// UpdateRequest,
-	// UpdateResponse,
+	UpdateRequest,
+	UpdateResponse,
 	HotelCRUDServiceControllerMethods,
 } from './stubs/hotel/v1alpha/hotel';
 import {GrpcMethod} from '@nestjs/microservices';
@@ -36,30 +36,30 @@ export class AppController implements HotelCRUDServiceController {
 		}
 	}
 
-	// async update(
-	//     request: UpdateRequest,
-	//     metadata?: Metadata,
-	// ): Promise<UpdateResponse> {
-	//   const id = request.id;
-	//
-	//   Object.keys(request).forEach(
-	//       (key) => request[key] === undefined && delete request[key],
-	//   );
-	//
-	//   delete request.id;
-	//
-	//   const hotel = await this.appService.update(id, request);
-	//
-	//   return { hotel };
-	// }
-	// async delete(
-	//     request: DeleteRequest,
-	//     metadata?: Metadata,
-	// ): Promise<DeleteResponse> {
-	//   const hotel = await this.appService.delete(request.id);
-	//
-	//   return { hotel };
-	// }
+	async update(
+	    request: UpdateRequest,
+	    metadata?: Metadata,
+	): Promise<UpdateResponse> {
+	  const id = request.id;
+
+	  Object.keys(request).forEach(
+	      (key) => request[key] === undefined && delete request[key],
+	  );
+
+	  delete request.id;
+
+	  const hotel = await this.appService.update(id, request);
+
+	  return { hotel };
+	}
+	async delete(
+	    request: DeleteRequest,
+	    metadata?: Metadata,
+	): Promise<DeleteResponse> {
+	  const hotel = await this.appService.delete(request.id);
+
+	  return { hotel };
+	}
 
 	@GrpcMethod(HOTEL_CR_UD_SERVICE_NAME)
 	async add(request: AddRequest): Promise<AddResponse> {
