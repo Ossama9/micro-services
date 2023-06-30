@@ -28,8 +28,11 @@ export class AppController implements HotelCRUDServiceController {
 		let hotels: Hotel[] = [];
 
 		if (request.id) {
-			hotel = await this.appService.findById(request.id);
-			return {Hotels: [hotel]};
+			const hotel = await this.appService.findById(request.id);
+			return { Hotels: [hotel] };
+		} else {
+			hotels = await this.appService.findAll();
+			return { Hotels: hotels };
 		}
 	}
 
