@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { UserService } from "./service";
+import type { MakeMerchantResponse } from "./message";
+import type { MakeMerchantRequest } from "./message";
 import type { MakeAdminResponse } from "./message";
 import type { MakeAdminRequest } from "./message";
 import type { DeleteResponse } from "./message";
@@ -53,6 +55,10 @@ export interface IUserServiceClient {
      * @generated from protobuf rpc: MakeAdmin(user.v1alpha.MakeAdminRequest) returns (user.v1alpha.MakeAdminResponse);
      */
     makeAdmin(input: MakeAdminRequest, options?: RpcOptions): UnaryCall<MakeAdminRequest, MakeAdminResponse>;
+    /**
+     * @generated from protobuf rpc: MakeMerchant(user.v1alpha.MakeMerchantRequest) returns (user.v1alpha.MakeMerchantResponse);
+     */
+    makeMerchant(input: MakeMerchantRequest, options?: RpcOptions): UnaryCall<MakeMerchantRequest, MakeMerchantResponse>;
 }
 /**
  * @generated from protobuf service user.v1alpha.UserService
@@ -111,5 +117,12 @@ export class UserServiceClient implements IUserServiceClient, ServiceInfo {
     makeAdmin(input: MakeAdminRequest, options?: RpcOptions): UnaryCall<MakeAdminRequest, MakeAdminResponse> {
         const method = this.methods[6], opt = this._transport.mergeOptions(options);
         return stackIntercept<MakeAdminRequest, MakeAdminResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: MakeMerchant(user.v1alpha.MakeMerchantRequest) returns (user.v1alpha.MakeMerchantResponse);
+     */
+    makeMerchant(input: MakeMerchantRequest, options?: RpcOptions): UnaryCall<MakeMerchantRequest, MakeMerchantResponse> {
+        const method = this.methods[7], opt = this._transport.mergeOptions(options);
+        return stackIntercept<MakeMerchantRequest, MakeMerchantResponse>("unary", this._transport, method, opt, input);
     }
 }

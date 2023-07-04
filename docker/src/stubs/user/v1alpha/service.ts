@@ -11,6 +11,8 @@ import {
   FindResponse,
   MakeAdminRequest,
   MakeAdminResponse,
+  MakeMerchantRequest,
+  MakeMerchantResponse,
   RegisterRequest,
   RegisterResponse,
   UpdatePasswordRequest,
@@ -37,6 +39,8 @@ export interface UserServiceClient {
   delete(request: DeleteRequest, metadata?: Metadata): Observable<DeleteResponse>;
 
   makeAdmin(request: MakeAdminRequest, metadata?: Metadata): Observable<MakeAdminResponse>;
+
+  makeMerchant(request: MakeMerchantRequest, metadata?: Metadata): Observable<MakeMerchantResponse>;
 }
 
 export interface UserServiceController {
@@ -71,6 +75,11 @@ export interface UserServiceController {
     request: MakeAdminRequest,
     metadata?: Metadata,
   ): Promise<MakeAdminResponse> | Observable<MakeAdminResponse> | MakeAdminResponse;
+
+  makeMerchant(
+    request: MakeMerchantRequest,
+    metadata?: Metadata,
+  ): Promise<MakeMerchantResponse> | Observable<MakeMerchantResponse> | MakeMerchantResponse;
 }
 
 export function UserServiceControllerMethods() {
@@ -83,6 +92,7 @@ export function UserServiceControllerMethods() {
       "updatePassword",
       "delete",
       "makeAdmin",
+      "makeMerchant",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);

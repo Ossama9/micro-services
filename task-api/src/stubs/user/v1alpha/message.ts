@@ -93,4 +93,13 @@ export interface MakeAdminResponse {
   user?: User;
 }
 
+export interface MakeMerchantRequest {
+  id?: string;
+  email?: string;
+}
+
+export interface MakeMerchantResponse {
+  user?: User;
+}
+
 export const USER_V1ALPHA_PACKAGE_NAME = "user.v1alpha";

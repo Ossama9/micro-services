@@ -89,3 +89,11 @@ message MakeAdminRequest {
 message MakeAdminResponse {
   User user = 1;
 }
+
+message MakeMerchantRequest {
+  string id = 1;
+  string email = 2;
+}
+message MakeMerchantResponse {
+  User user = 1;
+}
