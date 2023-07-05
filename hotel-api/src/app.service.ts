@@ -1,41 +1,54 @@
-import { Injectable } from '@nestjs/common';
-import { Hotel } from './stubs/hotel/v1alpha/hotel';
-import { Prisma } from '@prisma/client';
+import {Hotel} from './stubs/hotel/v1alpha/hotel';
+import {Prisma} from '@prisma/client';
 import {PrismaService} from "./primsa.service";
+import {OnModuleInit} from '@nestjs/common';
+import {Inject, Injectable} from '@nestjs/common';
+import {
+	USER_SERVICE_NAME,
+	USER_V1ALPHA_PACKAGE_NAME,
+	UserServiceClient,
+} from './stubs/user/v1alpha/service';
+import {ClientGrpc} from '@nestjs/microservices';
+import {
+	MakeMerchantRequest,
+	MakeMerchantResponse,
+	FindRequest,
+	FindResponse,
+	User,
+} from './stubs/user/v1alpha/message';
+import { Metadata } from '@grpc/grpc-js';
+import {firstValueFrom} from "rxjs";
 
 @Injectable()
-export class AppService {
-  constructor(private prisma: PrismaService) {}
-  create(data: Prisma.HotelCreateInput): Promise<Hotel> {
-    return this.prisma.hotel.create({ data });
-  }
+export class AppService implements OnModuleInit {
+	private userService: UserServiceClient;
 
-  findAll(): Promise<Hotel[]> {
-    return this.prisma.hotel.findMany();
-  }
+	constructor(@Inject(USER_V1ALPHA_PACKAGE_NAME) private client: ClientGrpc) {
+	}
 
-  findById(id: number): Promise<Hotel> {
-    return this.prisma.hotel.findUnique({
-      where: { id },
-    });
-  }
-  //
-  // findByName(name: string): Promise<Hotel> {
-  //   return this.prisma.hotel.findUnique({
-  //     where: { name },
-  //   });
-  // }
+	onModuleInit() {
+		this.userService = this.client.getService<UserServiceClient>(USER_SERVICE_NAME);
+	}
 
-  async update(id: number, data: Prisma.HotelUpdateInput): Promise<Hotel> {
-    return this.prisma.hotel.update({
-      where: { id },
-      data,
-    });
-  }
+	async findUser(req: FindRequest, md: Record<string, any>): Promise<User> {
+		const meta = new Metadata();
+		Object.entries(md).map(([k, v]) => meta.add(k, v));
+		const res: FindResponse = await firstValueFrom(
+			this.userService.find(req, meta) as any,
+		);
 
-  delete(id: number): Promise<Hotel> {
-    return this.prisma.hotel.delete({
-      where: { id },
-    });
-  }
+		return res.user?.[0];
+	}
+
+	async makeMerchanta(req: MakeMerchantRequest, md: Record<string, any>): Promise<User> {
+		const meta = new Metadata();
+		Object.entries(md).map(([k, v]) => meta.add(k, v));
+		const res: FindResponse = await firstValueFrom(
+			this.userService.makeMerchant(req, meta) as any,
+		);
+
+		return res.user?.[0];
+	}
+
+
 }

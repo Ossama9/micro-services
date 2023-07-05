@@ -15,4 +15,12 @@ model Hotel {
   name    String
   city    String
   address String
+  userId  String
+  status  Status @default(PENDING)
+}
+
+enum Status {
+  PENDING
+  APPROVED
+  REJECTED
 }

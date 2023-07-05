@@ -5,11 +5,20 @@ import { Observable } from "rxjs";
 
 export const protobufPackage = "hotel.v1alpha";
 
+export enum STATUS {
+  PENDING = 0,
+  APPROVED = 1,
+  REJECTED = 2,
+  UNRECOGNIZED = -1,
+}
+
 export interface Hotel {
   name?: string;
   id?: number;
   city?: string;
   address?: string;
+  userId?: string;
+  status?: STATUS;
 }
 
 export interface GetRequest {
@@ -24,6 +33,7 @@ export interface AddRequest {
   name?: string;
   city?: string;
   address?: string;
+  userId?: string;
 }
 
 export interface AddResponse {
@@ -35,6 +45,8 @@ export interface UpdateRequest {
   name?: string;
   city?: string;
   address?: string;
+  userId?: string;
+  status?: STATUS;
 }
 
 export interface UpdateResponse {
@@ -49,6 +61,14 @@ export interface DeleteResponse {
   hotel?: Hotel;
 }
 
+export interface PendingHotelRequest {
+  id?: number;
+}
+
+export interface PendingHotelResponse {
+  hotels?: Hotel[];
+}
+
 export const HOTEL_V1ALPHA_PACKAGE_NAME = "hotel.v1alpha";
 
 export interface HotelCRUDServiceClient {
@@ -59,6 +79,8 @@ export interface HotelCRUDServiceClient {
   update(request: UpdateRequest, metadata?: Metadata): Observable<UpdateResponse>;
 
   delete(request: DeleteRequest, metadata?: Metadata): Observable<DeleteResponse>;
+
+  pendingHotel(request: PendingHotelRequest, metadata?: Metadata): Observable<PendingHotelResponse>;
 }
 
 export interface HotelCRUDServiceController {
@@ -75,11 +97,16 @@ export interface HotelCRUDServiceController {
     request: DeleteRequest,
     metadata?: Metadata,
   ): Promise<DeleteResponse> | Observable<DeleteResponse> | DeleteResponse;
+
+  pendingHotel(
+    request: PendingHotelRequest,
+    metadata?: Metadata,
+  ): Promise<PendingHotelResponse> | Observable<PendingHotelResponse> | PendingHotelResponse;
 }
 
 export function HotelCRUDServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["get", "add", "update", "delete"];
+    const grpcMethods: string[] = ["get", "add", "update", "delete", "pendingHotel"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("HotelCRUDService", method)(constructor.prototype[method], method, descriptor);

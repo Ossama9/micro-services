@@ -22,8 +22,7 @@ export class AppService implements OnModuleInit {
   constructor(@Inject(USER_V1ALPHA_PACKAGE_NAME) private client: ClientGrpc) {}
 
   onModuleInit() {
-    this.userService =
-      this.client.getService<UserServiceClient>(USER_SERVICE_NAME);
+    this.userService = this.client.getService<UserServiceClient>(USER_SERVICE_NAME);
   }
 
   async checkPassword(

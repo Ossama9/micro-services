@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { HotelCRUDService } from "./hotel";
+import type { PendingHotelResponse } from "./hotel";
+import type { PendingHotelRequest } from "./hotel";
 import type { DeleteResponse } from "./hotel";
 import type { DeleteRequest } from "./hotel";
 import type { UpdateResponse } from "./hotel";
@@ -35,6 +37,10 @@ export interface IHotelCRUDServiceClient {
      * @generated from protobuf rpc: Delete(hotel.v1alpha.DeleteRequest) returns (hotel.v1alpha.DeleteResponse);
      */
     delete(input: DeleteRequest, options?: RpcOptions): UnaryCall<DeleteRequest, DeleteResponse>;
+    /**
+     * @generated from protobuf rpc: PendingHotel(hotel.v1alpha.PendingHotelRequest) returns (hotel.v1alpha.PendingHotelResponse);
+     */
+    pendingHotel(input: PendingHotelRequest, options?: RpcOptions): UnaryCall<PendingHotelRequest, PendingHotelResponse>;
 }
 /**
  * @generated from protobuf service hotel.v1alpha.HotelCRUDService
@@ -72,5 +78,12 @@ export class HotelCRUDServiceClient implements IHotelCRUDServiceClient, ServiceI
     delete(input: DeleteRequest, options?: RpcOptions): UnaryCall<DeleteRequest, DeleteResponse> {
         const method = this.methods[3], opt = this._transport.mergeOptions(options);
         return stackIntercept<DeleteRequest, DeleteResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: PendingHotel(hotel.v1alpha.PendingHotelRequest) returns (hotel.v1alpha.PendingHotelResponse);
+     */
+    pendingHotel(input: PendingHotelRequest, options?: RpcOptions): UnaryCall<PendingHotelRequest, PendingHotelResponse> {
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        return stackIntercept<PendingHotelRequest, PendingHotelResponse>("unary", this._transport, method, opt, input);
     }
 }

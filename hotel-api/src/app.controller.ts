@@ -1,5 +1,5 @@
 import {Controller} from '@nestjs/common';
-import {AppService} from './app.service';
+import {AppService} from './hotel/hotel.service';
 import {
 	AddRequest,
 	AddResponse,
@@ -13,9 +13,21 @@ import {
 	UpdateRequest,
 	UpdateResponse,
 	HotelCRUDServiceControllerMethods,
+	STATUS,
+	PendingHotelResponse,
+	PendingHotelRequest,
 } from './stubs/hotel/v1alpha/hotel';
-import {GrpcMethod} from '@nestjs/microservices';
+import {
+	MakeMerchantRequest,
+	User,
+} from './stubs/user/v1alpha/message';
+import {GrpcMethod, RpcException} from '@nestjs/microservices';
 import {Metadata} from '@grpc/grpc-js';
+import {CreateHotelDto} from "./dto/create-hotel";
+import {validate, ValidatorOptions} from 'class-validator';
+import {plainToInstance} from "class-transformer";
+import {status as RpcStatus} from '@grpc/grpc-js';
+import {Prisma} from '@prisma/client';
 
 @Controller()
 @HotelCRUDServiceControllerMethods()
@@ -29,42 +41,84 @@ export class AppController implements HotelCRUDServiceController {
 
 		if (request.id) {
 			const hotel = await this.appService.findById(request.id);
-			return { Hotels: [hotel] };
+			return {Hotels: [hotel] as any};
 		} else {
 			hotels = await this.appService.findAll();
-			return { Hotels: hotels };
+			return {Hotels: hotels as any};
+		}
+	}
+
+	async pendingHotel(request: PendingHotelRequest, metadata?: Metadata): Promise<PendingHotelResponse> {
+		let hotel: Hotel;
+		let hotels: Hotel[] = [];
+		if (request.id) {
+			const hotel = await this.appService.findById(request.id);
+			return {hotels: [hotel]};
+		} else {
+			hotels = await this.appService.pendingHotel();
+			return {hotels: hotels};
 		}
 	}
 
 	async update(
-	    request: UpdateRequest,
-	    metadata?: Metadata,
+		request: UpdateRequest,
+		metadata?: Metadata,
 	): Promise<UpdateResponse> {
-	  const id = request.id;
+		const {id, status, ...rest} = request;
+		const convertedStatus = STATUS[status] || STATUS.UNRECOGNIZED;
 
-	  Object.keys(request).forEach(
-	      (key) => request[key] === undefined && delete request[key],
-	  );
+		const cleanedRequest = {
+			...rest,
+			...(convertedStatus && {status: convertedStatus}),
+		};
 
-	  delete request.id;
-
-	  const hotel = await this.appService.update(id, request);
-
-	  return { hotel };
+		const hotel = await this.appService.update(id, cleanedRequest as Prisma.HotelUpdateInput);
+		return {hotel};
 	}
-	async delete(
-	    request: DeleteRequest,
-	    metadata?: Metadata,
-	): Promise<DeleteResponse> {
-	  const hotel = await this.appService.delete(request.id);
 
-	  return { hotel };
+
+	async delete(
+		request: DeleteRequest,
+		metadata?: Metadata,
+	): Promise<DeleteResponse> {
+		const hotel = await this.appService.delete(request.id);
+		return {hotel};
 	}
 
 	@GrpcMethod(HOTEL_CR_UD_SERVICE_NAME)
 	async add(request: AddRequest): Promise<AddResponse> {
-	  const hotel = await this.appService.create(request as any);
+		try {
+			const dto: CreateHotelDto = await this.validateDto(request, CreateHotelDto);
+			const hotel = await this.appService.create(request as any);
 
-	  return { hotel };
+			return {hotel};
+		} catch (e) {
+			throw new RpcException(e);
+		}
+
+	}
+
+	private async validateDto(
+		data: any,
+		Dto: any,
+		validatorOptions?: ValidatorOptions,
+	) {
+		const dto = plainToInstance(Dto, data);
+		const errors = await validate(dto, validatorOptions);
+
+		if (errors.length > 0) {
+			throw new RpcException({
+				code: RpcStatus.INVALID_ARGUMENT,
+				message: errors
+					.map(
+						({value, property, constraints}) =>
+							`${value} is not a valid ${property} value (${Object.values(
+								constraints,
+							).join(', ')})`,
+					)
+					.join('\n'),
+			});
+		}
+		return dto as typeof Dto;
 	}
 }
