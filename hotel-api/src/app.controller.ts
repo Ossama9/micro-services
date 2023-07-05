@@ -16,6 +16,8 @@ import {
 	STATUS,
 	PendingHotelResponse,
 	PendingHotelRequest,
+	ApproveHotelRequest,
+	ApproveHotelResponse
 } from './stubs/hotel/v1alpha/hotel';
 import {
 	MakeMerchantRequest,
@@ -32,7 +34,9 @@ import {Prisma} from '@prisma/client';
 @Controller()
 @HotelCRUDServiceControllerMethods()
 export class AppController implements HotelCRUDServiceController {
-	constructor(private readonly appService: AppService) {
+
+	constructor(private readonly appService: AppService
+	) {
 	}
 
 	async get(request: GetRequest, metadata?: Metadata): Promise<GetResponse> {
@@ -82,6 +86,22 @@ export class AppController implements HotelCRUDServiceController {
 		metadata?: Metadata,
 	): Promise<DeleteResponse> {
 		const hotel = await this.appService.delete(request.id);
+		return {hotel};
+	}
+
+	async approveHotel(
+		request: ApproveHotelRequest,
+		metadata?: Metadata,
+	): Promise<ApproveHotelResponse> {
+		const status = STATUS[1]
+		console.log("status",status)
+		let hotel
+		try {
+			hotel = await this.appService.update(request.id, {status} as any);
+		}
+		catch (e) {
+			throw new RpcException('Hotel does exist');
+		}
 		return {hotel};
 	}
 

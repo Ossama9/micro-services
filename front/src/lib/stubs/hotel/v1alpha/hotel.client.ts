@@ -4,6 +4,8 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { HotelCRUDService } from "./hotel";
+import type { ApproveHotelResponse } from "./hotel";
+import type { ApproveHotelRequest } from "./hotel";
 import type { PendingHotelResponse } from "./hotel";
 import type { PendingHotelRequest } from "./hotel";
 import type { DeleteResponse } from "./hotel";
@@ -41,6 +43,10 @@ export interface IHotelCRUDServiceClient {
      * @generated from protobuf rpc: PendingHotel(hotel.v1alpha.PendingHotelRequest) returns (hotel.v1alpha.PendingHotelResponse);
      */
     pendingHotel(input: PendingHotelRequest, options?: RpcOptions): UnaryCall<PendingHotelRequest, PendingHotelResponse>;
+    /**
+     * @generated from protobuf rpc: ApproveHotel(hotel.v1alpha.ApproveHotelRequest) returns (hotel.v1alpha.ApproveHotelResponse);
+     */
+    approveHotel(input: ApproveHotelRequest, options?: RpcOptions): UnaryCall<ApproveHotelRequest, ApproveHotelResponse>;
 }
 /**
  * @generated from protobuf service hotel.v1alpha.HotelCRUDService
@@ -85,5 +91,12 @@ export class HotelCRUDServiceClient implements IHotelCRUDServiceClient, ServiceI
     pendingHotel(input: PendingHotelRequest, options?: RpcOptions): UnaryCall<PendingHotelRequest, PendingHotelResponse> {
         const method = this.methods[4], opt = this._transport.mergeOptions(options);
         return stackIntercept<PendingHotelRequest, PendingHotelResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: ApproveHotel(hotel.v1alpha.ApproveHotelRequest) returns (hotel.v1alpha.ApproveHotelResponse);
+     */
+    approveHotel(input: ApproveHotelRequest, options?: RpcOptions): UnaryCall<ApproveHotelRequest, ApproveHotelResponse> {
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
+        return stackIntercept<ApproveHotelRequest, ApproveHotelResponse>("unary", this._transport, method, opt, input);
     }
 }

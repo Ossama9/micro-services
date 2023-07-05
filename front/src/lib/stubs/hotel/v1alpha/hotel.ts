@@ -164,6 +164,24 @@ export interface PendingHotelResponse {
     hotels: Hotel[];
 }
 /**
+ * @generated from protobuf message hotel.v1alpha.ApproveHotelRequest
+ */
+export interface ApproveHotelRequest {
+    /**
+     * @generated from protobuf field: int32 id = 1;
+     */
+    id: number;
+}
+/**
+ * @generated from protobuf message hotel.v1alpha.ApproveHotelResponse
+ */
+export interface ApproveHotelResponse {
+    /**
+     * @generated from protobuf field: hotel.v1alpha.Hotel hotel = 1;
+     */
+    hotel?: Hotel;
+}
+/**
  * @generated from protobuf enum hotel.v1alpha.STATUS
  */
 export enum STATUS {
@@ -788,6 +806,100 @@ class PendingHotelResponse$Type extends MessageType<PendingHotelResponse> {
  * @generated MessageType for protobuf message hotel.v1alpha.PendingHotelResponse
  */
 export const PendingHotelResponse = new PendingHotelResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ApproveHotelRequest$Type extends MessageType<ApproveHotelRequest> {
+    constructor() {
+        super("hotel.v1alpha.ApproveHotelRequest", [
+            { no: 1, name: "id", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+    create(value?: PartialMessage<ApproveHotelRequest>): ApproveHotelRequest {
+        const message = { id: 0 };
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<ApproveHotelRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ApproveHotelRequest): ApproveHotelRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* int32 id */ 1:
+                    message.id = reader.int32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ApproveHotelRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* int32 id = 1; */
+        if (message.id !== 0)
+            writer.tag(1, WireType.Varint).int32(message.id);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message hotel.v1alpha.ApproveHotelRequest
+ */
+export const ApproveHotelRequest = new ApproveHotelRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ApproveHotelResponse$Type extends MessageType<ApproveHotelResponse> {
+    constructor() {
+        super("hotel.v1alpha.ApproveHotelResponse", [
+            { no: 1, name: "hotel", kind: "message", T: () => Hotel }
+        ]);
+    }
+    create(value?: PartialMessage<ApproveHotelResponse>): ApproveHotelResponse {
+        const message = {};
+        globalThis.Object.defineProperty(message, MESSAGE_TYPE, { enumerable: false, value: this });
+        if (value !== undefined)
+            reflectionMergePartial<ApproveHotelResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ApproveHotelResponse): ApproveHotelResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* hotel.v1alpha.Hotel hotel */ 1:
+                    message.hotel = Hotel.internalBinaryRead(reader, reader.uint32(), options, message.hotel);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ApproveHotelResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* hotel.v1alpha.Hotel hotel = 1; */
+        if (message.hotel)
+            Hotel.internalBinaryWrite(message.hotel, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message hotel.v1alpha.ApproveHotelResponse
+ */
+export const ApproveHotelResponse = new ApproveHotelResponse$Type();
 /**
  * @generated ServiceType for protobuf service hotel.v1alpha.HotelCRUDService
  */
@@ -796,5 +908,6 @@ export const HotelCRUDService = new ServiceType("hotel.v1alpha.HotelCRUDService"
     { name: "Add", options: {}, I: AddRequest, O: AddResponse },
     { name: "Update", options: {}, I: UpdateRequest, O: UpdateResponse },
     { name: "Delete", options: {}, I: DeleteRequest, O: DeleteResponse },
-    { name: "PendingHotel", options: {}, I: PendingHotelRequest, O: PendingHotelResponse }
+    { name: "PendingHotel", options: {}, I: PendingHotelRequest, O: PendingHotelResponse },
+    { name: "ApproveHotel", options: {}, I: ApproveHotelRequest, O: ApproveHotelResponse }
 ]);

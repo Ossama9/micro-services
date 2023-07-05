@@ -1,13 +1,10 @@
-import {Hotel} from './stubs/hotel/v1alpha/hotel';
-import {Prisma} from '@prisma/client';
-import {PrismaService} from "./primsa.service";
 import {OnModuleInit} from '@nestjs/common';
 import {Inject, Injectable} from '@nestjs/common';
 import {
 	USER_SERVICE_NAME,
 	USER_V1ALPHA_PACKAGE_NAME,
 	UserServiceClient,
-} from './stubs/user/v1alpha/service';
+} from '../stubs/user/v1alpha/service';
 import {ClientGrpc} from '@nestjs/microservices';
 import {
 	MakeMerchantRequest,
@@ -15,12 +12,12 @@ import {
 	FindRequest,
 	FindResponse,
 	User,
-} from './stubs/user/v1alpha/message';
+} from '../stubs/user/v1alpha/message';
 import { Metadata } from '@grpc/grpc-js';
 import {firstValueFrom} from "rxjs";
 
 @Injectable()
-export class UserAppService implements OnModuleInit {
+export class UserService implements OnModuleInit {
 	private userService: UserServiceClient;
 
 	constructor(@Inject(USER_V1ALPHA_PACKAGE_NAME) private client: ClientGrpc) {

@@ -69,6 +69,14 @@ export interface PendingHotelResponse {
   hotels?: Hotel[];
 }
 
+export interface ApproveHotelRequest {
+  id?: number;
+}
+
+export interface ApproveHotelResponse {
+  hotel?: Hotel;
+}
+
 export const HOTEL_V1ALPHA_PACKAGE_NAME = "hotel.v1alpha";
 
 export interface HotelCRUDServiceClient {
@@ -81,6 +89,8 @@ export interface HotelCRUDServiceClient {
   delete(request: DeleteRequest, metadata?: Metadata): Observable<DeleteResponse>;
 
   pendingHotel(request: PendingHotelRequest, metadata?: Metadata): Observable<PendingHotelResponse>;
+
+  approveHotel(request: ApproveHotelRequest, metadata?: Metadata): Observable<ApproveHotelResponse>;
 }
 
 export interface HotelCRUDServiceController {
@@ -102,11 +112,16 @@ export interface HotelCRUDServiceController {
     request: PendingHotelRequest,
     metadata?: Metadata,
   ): Promise<PendingHotelResponse> | Observable<PendingHotelResponse> | PendingHotelResponse;
+
+  approveHotel(
+    request: ApproveHotelRequest,
+    metadata?: Metadata,
+  ): Promise<ApproveHotelResponse> | Observable<ApproveHotelResponse> | ApproveHotelResponse;
 }
 
 export function HotelCRUDServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["get", "add", "update", "delete", "pendingHotel"];
+    const grpcMethods: string[] = ["get", "add", "update", "delete", "pendingHotel", "approveHotel"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("HotelCRUDService", method)(constructor.prototype[method], method, descriptor);

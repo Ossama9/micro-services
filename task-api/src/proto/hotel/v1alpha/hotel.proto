@@ -14,7 +14,7 @@ message Hotel {
   string city = 3;
   string address = 4;
   string userId = 5;
-    STATUS status = 6;
+  STATUS status = 6;
 }
 
 service HotelCRUDService {
@@ -22,7 +22,8 @@ service HotelCRUDService {
   rpc Add (AddRequest) returns (AddResponse);
   rpc Update (UpdateRequest) returns (UpdateResponse);
   rpc Delete (DeleteRequest) returns (DeleteResponse);
-    rpc PendingHotel (PendingHotelRequest) returns (PendingHotelResponse);
+  rpc PendingHotel (PendingHotelRequest) returns (PendingHotelResponse);
+  rpc ApproveHotel (ApproveHotelRequest) returns (ApproveHotelResponse);
 }
 
 message GetRequest {
@@ -71,4 +72,12 @@ message PendingHotelRequest{
 }
 message PendingHotelResponse{
   repeated Hotel hotels = 1;
+}
+
+message ApproveHotelRequest{
+  int32 id = 1;
+}
+
+message ApproveHotelResponse{
+  Hotel hotel = 1;
 }
