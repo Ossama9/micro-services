@@ -8,11 +8,13 @@ export const protobufPackage = "announce.v1alpha";
 export interface Announce {
   name?: string;
   id?: number;
+  hotelId?: number;
 }
 
 export interface GetRequest {
   name?: string;
   id?: number;
+  hotelId?: number;
 }
 
 export interface GetResponse {
@@ -22,6 +24,7 @@ export interface GetResponse {
 export interface AddRequest {
   name?: string;
   power?: number;
+  hotelId?: number;
 }
 
 export interface AddResponse {
@@ -31,6 +34,7 @@ export interface AddResponse {
 export interface UpdateRequest {
   name?: string;
   id?: number;
+  hotelId?: number;
 }
 
 export interface UpdateResponse {

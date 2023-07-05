@@ -13,6 +13,7 @@ datasource db {
 model Announce {
   id        Int      @id @default(autoincrement())
   name      String
+  hotelId   Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

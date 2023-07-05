@@ -5,6 +5,7 @@ package announce.v1alpha;
 message Announce {
   string name = 1;
   int32 id = 2;
+  int32 hotelId = 3;
 }
 
 service AnnounceCRUDService {
@@ -17,6 +18,7 @@ service AnnounceCRUDService {
 message GetRequest {
   string name = 1;
   int32 id = 2;
+  int32 hotelId = 3;
 }
 
 message GetResponse {
@@ -26,6 +28,7 @@ message GetResponse {
 message AddRequest {
   string name = 1;
   int32 power = 2;
+  int32 hotelId = 3;
 }
 
 message AddResponse {
@@ -34,6 +37,7 @@ message AddResponse {
 message UpdateRequest {
   string name = 1;
   int32 id = 2;
+  int32 hotelId = 3;
 }
 
 message UpdateResponse {

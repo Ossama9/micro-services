@@ -1,5 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { AppService } from './app.service';
+import { Prisma } from '@prisma/client';
 import {
   AddRequest,
   AddResponse,
@@ -58,8 +59,12 @@ export class AppController implements AnnounceCRUDServiceController {
 
   @GrpcMethod(ANNOUNCE_CR_UD_SERVICE_NAME)
   async add(request: AddRequest): Promise<AddResponse> {
-    const announce = await this.appService.create(request as any);
-
-    return { announce };
+    const { name, hotelId } = request;
+    if (!name || !hotelId) {
+      throw new Error("Name and hotelId are required.");
+    }else{
+      const announce = await this.appService.create({ name, hotelId });
+      return { announce };
+    }
   }
 }
