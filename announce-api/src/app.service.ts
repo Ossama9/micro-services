@@ -11,24 +11,24 @@ export class AppService {
       private readonly hotelAppService: HotelAppService
   ) {}
 
-  async create(data: Prisma.AnnounceCreateInput): Promise<Announce> {
-    const { hotelId } = data;
-    const hotel = await this.hotelAppService.findById(hotelId);
-    if (!hotel) {
-      throw new Error(`L'hôtel avec l'ID ${hotelId} n'existe pas.`);
-    } else {
-      return this.prisma.announce.create({
-        data: {
-          name: data.name,
-          hotelId: Number(data.hotelId),
-          createdAt: data.createdAt,
-          updatedAt: data.updatedAt,
-        },
-      });
+    async create(data: Prisma.AnnounceCreateInput): Promise<Announce> {
+        const { hotelId } = data;
+        const hotel = await this.hotelAppService.findById(hotelId);
+        if (!hotel) {
+            return this.prisma.announce.create({
+                data: {
+                    name: data.name,
+                    hotelId: hotelId,
+                    createdAt: data.createdAt,
+                    updatedAt: data.updatedAt,
+                },
+            });
+        }
+        throw new Error(`L'hôtel avec l'ID ${hotelId} n'existe pas.`);
     }
-  }
 
-  findAll(): Promise<Announce[]> {
+
+    findAll(): Promise<Announce[]> {
     return this.prisma.announce.findMany();
   }
 

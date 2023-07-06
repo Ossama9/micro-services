@@ -27,7 +27,6 @@ message GetResponse {
 
 message AddRequest {
   string name = 1;
-  int32 power = 2;
   int32 hotelId = 3;
 }
 

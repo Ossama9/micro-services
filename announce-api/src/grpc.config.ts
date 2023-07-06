@@ -13,9 +13,10 @@ export const grpcConfig = (cs: ConfigService): GrpcOptions =>
 	addReflectionToGrpcConfig({
 		transport: Transport.GRPC,
 		options: {
-			url: `0.0.0.0:6001`,
+			url: `0.0.0.0:6002`,
 			package: ANNOUNCE_V1ALPHA_PACKAGE_NAME,
 			protoPath: join(__dirname, 'proto/announce/v1alpha/announce.proto'),
 		},
 	});
+
 
